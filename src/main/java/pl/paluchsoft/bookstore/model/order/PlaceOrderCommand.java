@@ -1,15 +1,17 @@
 package pl.paluchsoft.bookstore.model.order;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
-import pl.paluchsoft.bookstore.model.Recipient;
+import pl.paluchsoft.bookstore.model.recipient.Recipient;
 
 import java.util.List;
 
 @Builder
 @Value
-public class AddOrderCommand {
+@AllArgsConstructor
+public class PlaceOrderCommand {
     @Singular
     List<OrderItem> items;
     Recipient recipient;

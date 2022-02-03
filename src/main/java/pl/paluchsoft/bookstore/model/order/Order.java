@@ -1,7 +1,7 @@
 package pl.paluchsoft.bookstore.model.order;
 
 import lombok.*;
-import pl.paluchsoft.bookstore.model.Recipient;
+import pl.paluchsoft.bookstore.model.recipient.Recipient;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,12 +23,5 @@ public class Order {
         this.items = items;
         this.recipient = recipient;
         this.createdAt = createdAt;
-    }
-
-    public BigDecimal totalPrice() {
-        return items.stream()
-                .map(item -> item.getBook().getPrice()
-                        .multiply(new BigDecimal(item.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

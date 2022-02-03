@@ -21,6 +21,11 @@ class MemoryCatalogRepository implements CatalogRepository {
     }
 
     @Override
+    public Optional<Book> findById(Long id) {
+        return Optional.ofNullable(storage.get(id));
+    }
+
+    @Override
     public Book save(Book book) {
         if (book.getId() != null) {
             storage.put(book.getId(), book);
@@ -30,11 +35,6 @@ class MemoryCatalogRepository implements CatalogRepository {
             storage.put(nextId, book);
         }
         return book;
-    }
-
-    @Override
-    public Optional<Book> findById(Long id) {
-        return Optional.ofNullable(storage.get(id));
     }
 
     @Override

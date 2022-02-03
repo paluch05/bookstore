@@ -1,4 +1,4 @@
-package pl.paluchsoft.bookstore.model;
+package pl.paluchsoft.bookstore.model.recipient;
 
 import lombok.Builder;
 import lombok.Value;

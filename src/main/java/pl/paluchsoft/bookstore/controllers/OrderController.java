@@ -1,33 +1,60 @@
 package pl.paluchsoft.bookstore.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import pl.paluchsoft.bookstore.services.IOrderService;
-import pl.paluchsoft.bookstore.model.order.AddOrderCommand;
-import pl.paluchsoft.bookstore.model.order.AddOrderResponse;
-import pl.paluchsoft.bookstore.model.order.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import pl.paluchsoft.bookstore.model.order.*;
+import pl.paluchsoft.bookstore.services.IPlaceOrder;
+import pl.paluchsoft.bookstore.services.IQueryOrder;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
+@RequestMapping("/order")
 @RequiredArgsConstructor
 public class OrderController {
-    private final IOrderService orderService;
+    private final IQueryOrder queryOrderService;
+    private final IPlaceOrder placeOrderService;
 
-    public List<Order> findAll() {
-       return orderService.findAll();
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<RichOrder> findAll() {
+       return queryOrderService.findAll();
     }
 
-    public Optional<Order> findById(long id) {
-        return orderService.findById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<RichOrder> findById(long id) {
+        return queryOrderService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    public AddOrderResponse addOrder(AddOrderCommand addOrderCommand) {
-        return orderService.addOrder(addOrderCommand);
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Object> addOrder(@RequestBody CreateOrderCommand createOrderCommand) {
+        return placeOrderService
+                .placeOrderResponse(createOrderCommand.placeOrderCommand())
+                .handle(
+                        orderId -> ResponseEntity.created(new CreatedURI("/" + orderId).uri()).build(),
+                        error -> ResponseEntity.badRequest().body(error)
+                );
     }
 
-    void deleteOrderById(Long id) {
-        orderService.deleteOrderById(id);
+    @PutMapping("/{id}/status")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateOrderStatus(@PathVariable Long id, @RequestBody UpdateOrderStatus updateOrderStatus) {
+        OrderStatus orderStatus = OrderStatus
+                .parseString(updateOrderStatus.getStatus())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown status" + updateOrderStatus.getStatus()));
+        placeOrderService.updateOrderStatus(id, orderStatus);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deleteOrderById(@PathVariable Long id) {
+        placeOrderService.deleteOrderById(id);
     }
 }

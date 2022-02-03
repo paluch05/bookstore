@@ -39,7 +39,10 @@ public class MemoryOrderRepository implements OrderRepository {
         return order;
     }
 
-
+    @Override
+    public void deleteById(Long id) {
+        storage.remove(id);
+    }
 
     private long nextId() {
         return ID_NEXT_VALUE.incrementAndGet();

@@ -9,7 +9,7 @@
 //import pl.paluchsoft.bookstore.services.OrderService;
 //import pl.paluchsoft.bookstore.controllers.CatalogController;
 //import pl.paluchsoft.bookstore.controllers.OrderController;
-//import pl.paluchsoft.bookstore.model.Recipient;
+//import pl.paluchsoft.bookstore.model.recipient.Recipient;
 //import pl.paluchsoft.bookstore.model.book.AddBookCommand;
 //import pl.paluchsoft.bookstore.model.book.Book;
 //import pl.paluchsoft.bookstore.model.book.UpdateBookCommand;
