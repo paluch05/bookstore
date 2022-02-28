@@ -2,11 +2,11 @@ package pl.paluchsoft.bookstore.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.paluchsoft.bookstore.database.IBookJpaRepository;
 import pl.paluchsoft.bookstore.model.SaveUploadFileCommand;
 import pl.paluchsoft.bookstore.model.book.UpdateBookCoverCommand;
 import pl.paluchsoft.bookstore.model.UploadFile;
 import pl.paluchsoft.bookstore.model.book.*;
-import pl.paluchsoft.bookstore.repositories.CatalogRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CatalogService implements ICatalogService {
 
-    private final CatalogRepository repository;
+    private final IBookJpaRepository repository;
     private final IUploadService uploadService;
 
     @Override
@@ -80,7 +80,7 @@ public class CatalogService implements ICatalogService {
     }
 
     public void deleteBookById(Long id) {
-        repository.deleteBookById(id);
+        repository.deleteById(id);
     }
 
     @Override

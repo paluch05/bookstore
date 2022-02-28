@@ -15,7 +15,7 @@ public class RichOrder {
     Recipient recipient;
     LocalDateTime createdAt;
 
-    BigDecimal totalPrice() {
+    public BigDecimal totalPrice() {
         return items.stream()
                 .map(item -> item.getBook().getPrice().multiply(new BigDecimal(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

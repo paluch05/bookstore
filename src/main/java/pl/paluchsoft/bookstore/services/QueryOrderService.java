@@ -2,13 +2,13 @@ package pl.paluchsoft.bookstore.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.paluchsoft.bookstore.database.IBookJpaRepository;
+import pl.paluchsoft.bookstore.database.IOrderJpaRepository;
 import pl.paluchsoft.bookstore.model.book.Book;
 import pl.paluchsoft.bookstore.model.order.Order;
 import pl.paluchsoft.bookstore.model.order.OrderItem;
 import pl.paluchsoft.bookstore.model.order.RichOrder;
 import pl.paluchsoft.bookstore.model.order.RichOrderItem;
-import pl.paluchsoft.bookstore.repositories.CatalogRepository;
-import pl.paluchsoft.bookstore.repositories.OrderRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class QueryOrderService implements IQueryOrder{
-    private final OrderRepository orderRepository;
-    private final CatalogRepository catalogRepository;
+    private final IOrderJpaRepository orderRepository;
+    private final IBookJpaRepository catalogRepository;
 
     @Override
     public List<RichOrder> findAll() {

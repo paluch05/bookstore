@@ -4,21 +4,22 @@
 //import org.slf4j.LoggerFactory;
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.boot.CommandLineRunner;
+//import org.springframework.http.ResponseEntity;
 //import org.springframework.stereotype.Component;
-//import pl.paluchsoft.bookstore.services.CatalogService;
-//import pl.paluchsoft.bookstore.services.OrderService;
 //import pl.paluchsoft.bookstore.controllers.CatalogController;
 //import pl.paluchsoft.bookstore.controllers.OrderController;
-//import pl.paluchsoft.bookstore.model.recipient.Recipient;
-//import pl.paluchsoft.bookstore.model.book.AddBookCommand;
+//import pl.paluchsoft.bookstore.model.book.CreateBookCommand;
 //import pl.paluchsoft.bookstore.model.book.Book;
 //import pl.paluchsoft.bookstore.model.book.UpdateBookCommand;
 //import pl.paluchsoft.bookstore.model.book.UpdateBookResponse;
-//import pl.paluchsoft.bookstore.model.order.AddOrderCommand;
-//import pl.paluchsoft.bookstore.model.order.AddOrderResponse;
+//import pl.paluchsoft.bookstore.model.order.CreateOrderCommand;
 //import pl.paluchsoft.bookstore.model.order.OrderItem;
+//import pl.paluchsoft.bookstore.model.order.OrderItemCommand;
+//import pl.paluchsoft.bookstore.model.recipient.Recipient;
+//import pl.paluchsoft.bookstore.model.recipient.RecipientCommand;
 //
 //import java.math.BigDecimal;
+//import java.util.ArrayList;
 //import java.util.List;
 //import java.util.Optional;
 //
@@ -57,7 +58,7 @@
 //    private void placeOrder() {
 //        Book panTadeusz = catalogController.findOneByTitle("Pan Tadeusz").orElseThrow(() -> new IllegalStateException("Cannot find a book."));
 //        Book chlopi = catalogController.findOneByTitle("Chłopi").orElseThrow(() -> new IllegalStateException("Cannot find a book."));
-//        Recipient recipient = Recipient
+//        RecipientCommand recipient = RecipientCommand
 //                .builder()
 //                .name("Jan Kowalski")
 //                .phone("1234567890")
@@ -67,15 +68,18 @@
 //                .email("jankowalski@gmail.com")
 //                .build();
 //
-//        AddOrderCommand addOrderCommand = AddOrderCommand
+//        List<OrderItemCommand> items = new ArrayList<>();
+//        items.add(new OrderItemCommand((long) 1,5));
+//        items.add(new OrderItemCommand((long) 2,15));
+//
+//
+//        CreateOrderCommand addOrderCommand = CreateOrderCommand
 //                .builder()
-//                .recipient(recipient)
-//                .item(new OrderItem(panTadeusz, 2))
-//                .item(new OrderItem(chlopi, 7))
+//                .recipientCommand(recipient)
+//                .items(items)
 //                .build();
-//        AddOrderResponse response = orderController.addOrder(addOrderCommand);
-//        log.info("Created order with id: " + response.getOrderId());
-//        System.out.println("Created order with id: " + response.getOrderId());
+//        ResponseEntity<Object> response = orderController.addOrder(addOrderCommand);
+//        System.out.println("Created order with id: " + response.getStatusCodeValue());
 //
 //        orderController.findAll()
 //                .forEach(order -> {
@@ -104,7 +108,7 @@
 //                            .author(book.getAuthor())
 //                            .year(book.getYear())
 //                            .build();
-//                    UpdateBookResponse response = catalogController.updateBook(command);
+//                    UpdateBookResponse response = catalogController.updateBook(command.getId(), command);
 //                    System.out.println("Updating book result: " + response.isSuccess());
 //                });
 //    }
@@ -135,10 +139,10 @@
 //
 //
 //    private void addBooksData() {
-//        catalogController.addBook(new AddBookCommand("Pan Tadeusz", "Adam Mickiewicz", 1834, new BigDecimal("19.99")));
-//        catalogController.addBook(new AddBookCommand("Ogniem i Mieczem", "Henryk Sienkiewicz", 1884, new BigDecimal("39.99")));
-//        catalogController.addBook(new AddBookCommand("Chłopi", "Władysław Reymont", 1904, new BigDecimal("29.99")));
-//        catalogController.addBook(new AddBookCommand("Pan Wołodyjowski", "Henryk Sienkiewicz", 1888, new BigDecimal("14.99")));
+//        catalogController.addBook(new CreateBookCommand("Pan Tadeusz", "Adam Mickiewicz", 1834, new BigDecimal("19.99")));
+//        catalogController.addBook(new CreateBookCommand("Ogniem i Mieczem", "Henryk Sienkiewicz", 1884, new BigDecimal("39.99")));
+//        catalogController.addBook(new CreateBookCommand("Chłopi", "Władysław Reymont", 1904, new BigDecimal("29.99")));
+//        catalogController.addBook(new CreateBookCommand("Pan Wołodyjowski", "Henryk Sienkiewicz", 1888, new BigDecimal("14.99")));
 //    }
 //
 //    private void addOrdersData() {}

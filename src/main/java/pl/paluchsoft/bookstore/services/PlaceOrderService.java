@@ -2,16 +2,16 @@ package pl.paluchsoft.bookstore.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.paluchsoft.bookstore.database.IOrderJpaRepository;
 import pl.paluchsoft.bookstore.model.order.Order;
 import pl.paluchsoft.bookstore.model.order.OrderStatus;
 import pl.paluchsoft.bookstore.model.order.PlaceOrderCommand;
 import pl.paluchsoft.bookstore.model.order.PlaceOrderResponse;
-import pl.paluchsoft.bookstore.repositories.OrderRepository;
 
 @Service
 @AllArgsConstructor
 public class PlaceOrderService implements IPlaceOrder{
-    private final OrderRepository repository;
+    private final IOrderJpaRepository repository;
 
     @Override
     public PlaceOrderResponse placeOrderResponse(PlaceOrderCommand placeOrderCommand) {

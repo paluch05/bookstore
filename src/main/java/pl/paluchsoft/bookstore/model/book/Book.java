@@ -2,10 +2,19 @@ package pl.paluchsoft.bookstore.model.book;
 
 import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@Entity
 public class Book {
+    @Id
+    @GeneratedValue
     private Long id;
     private String title;
     private String author;
