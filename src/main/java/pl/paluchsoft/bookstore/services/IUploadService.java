@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface IUploadService {
     UploadFile saveFile(SaveUploadFileCommand saveUploadFileCommand);
 
-    Optional<UploadFile> getById(String id);
+    Optional<UploadFile> getById(Long id);
 
-    void deleteById(String id);
+    void deleteById(Long id);
 }

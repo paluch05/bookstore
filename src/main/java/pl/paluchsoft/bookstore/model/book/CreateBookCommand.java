@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -15,9 +16,10 @@ public class CreateBookCommand {
     @NotEmpty(message = "Title cannot be empty")
     @NotBlank(message = "Title cannot be blank")
     String title;
-    @NotEmpty(message = "Author cannot be empty")
-    @NotBlank(message = "Author cannot be blank")
-    String author;
+//    @NotEmpty(message = "Author cannot be empty")
+//    @NotBlank(message = "Author cannot be blank")
+    Set<Long> authors;
+
     @NotNull(message = "Year cannot be blank")
     Integer year;
     @NotNull(message = "Price cannot be blank")
@@ -25,10 +27,10 @@ public class CreateBookCommand {
     BigDecimal price;
 
     public Book createBook() {
-        return new Book(title, author, year, price);
+        return new Book(title, year, price);
     }
 
     public CreateBookCommand toCreateBookCommand() {
-        return new CreateBookCommand(title, author, year, price);
+        return new CreateBookCommand(title, Set.of(), year, price);
     }
 }

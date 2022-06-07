@@ -2,7 +2,9 @@ package pl.paluchsoft.bookstore.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.paluchsoft.bookstore.database.IAuthorJpaRepository;
 import pl.paluchsoft.bookstore.database.IBookJpaRepository;
+import pl.paluchsoft.bookstore.model.Author;
 import pl.paluchsoft.bookstore.model.SaveUploadFileCommand;
 import pl.paluchsoft.bookstore.model.book.UpdateBookCoverCommand;
 import pl.paluchsoft.bookstore.model.UploadFile;
@@ -17,6 +19,7 @@ public class CatalogService implements ICatalogService {
 
     private final IBookJpaRepository repository;
     private final IUploadService uploadService;
+    private final IAuthorJpaRepository authorRepository;
 
     @Override
     public List<Book> findAll() {
@@ -42,7 +45,7 @@ public class CatalogService implements ICatalogService {
     public List<Book> findByAuthor(String author) {
         return repository.findAll()
                 .stream()
-                .filter(book -> book.getAuthor().contains(author))
+//                .filter(book -> book.getAuthor().contains(author))
                 .collect(Collectors.toList());
     }
 
@@ -56,14 +59,24 @@ public class CatalogService implements ICatalogService {
         return repository.findAll()
                 .stream()
                 .filter(book -> book.getTitle().contains(title))
-                .filter(book -> book.getAuthor().contains(author))
+//                .filter(book -> book.getAuthor().contains(author))
                 .findFirst();
     }
 
     @Override
     public Book addBook(CreateBookCommand createBookCommand) {
-        Book book = createBookCommand.createBook();
+        Book book = toCreateBookCommand(createBookCommand);
         return repository.save(book);
+    }
+
+    private Book toCreateBookCommand(CreateBookCommand command) {
+        Book book = new Book(command.getTitle(), command.getYear(), command.getPrice());
+        Set<Author> authors = command.getAuthors().stream()
+            .map(authorId -> authorRepository.findById(authorId)
+                .orElseThrow(() -> new IllegalArgumentException("Unable to find author with id: " + authorId)))
+            .collect(Collectors.toSet());
+        book.setAuthors(authors);
+        return book;
     }
 
     @Override

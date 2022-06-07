@@ -3,8 +3,10 @@ package pl.paluchsoft.bookstore.model.book;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
+import pl.paluchsoft.bookstore.model.Author;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Value
 @Builder
@@ -12,7 +14,7 @@ import java.math.BigDecimal;
 public class UpdateBookCommand {
     Long id;
     String title;
-    String author;
+    Set<Author> authors;
     Integer year;
     BigDecimal price;
 
@@ -20,9 +22,9 @@ public class UpdateBookCommand {
         if (title != null) {
             book.setTitle(title);
         }
-        if (author != null) {
-            book.setAuthor(author);
-        }
+//        if (author != null) {
+//            book.setAuthor(author);
+//        }
         if (year != null) {
             book.setYear(year);
         }
@@ -33,6 +35,6 @@ public class UpdateBookCommand {
     }
 
     public UpdateBookCommand toUpdateBookCommand(Long id) {
-        return new UpdateBookCommand(id, title, author, year, price);
+        return new UpdateBookCommand(id, title, Set.of(), year, price);
     }
 }

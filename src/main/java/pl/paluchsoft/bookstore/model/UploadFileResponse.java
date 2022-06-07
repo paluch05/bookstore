@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Value
 @AllArgsConstructor
 public class UploadFileResponse {
-    String id;
+    Long id;
     String contentType;
     String filename;
     LocalDateTime createdAt;

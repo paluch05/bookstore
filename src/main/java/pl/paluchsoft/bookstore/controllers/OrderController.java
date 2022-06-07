@@ -38,7 +38,8 @@ public class OrderController {
         return placeOrderService
                 .placeOrderResponse(createOrderCommand.placeOrderCommand())
                 .handle(
-                        orderId -> ResponseEntity.created(new CreatedURI("/" + orderId).uri()).build(),
+                        orderId -> ResponseEntity.ok().build(),
+//                        orderId -> ResponseEntity.created(new CreatedURI("/" + orderId).uri()).build(),
                         error -> ResponseEntity.badRequest().body(error)
                 );
     }

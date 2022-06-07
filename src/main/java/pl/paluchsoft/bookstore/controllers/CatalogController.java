@@ -60,8 +60,9 @@ public class CatalogController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> addBook(@Valid @RequestBody CreateBookCommand createBookCommand) {
-        Book book = catalogService.addBook(createBookCommand.toCreateBookCommand());
-        return ResponseEntity.created(new CreatedURI("/" + book.getId().toString()).uri()).build();
+        Book book = catalogService.addBook(createBookCommand);
+        return ResponseEntity.ok().build();
+//        return ResponseEntity.created(new CreatedURI("/" + book.getId().toString()).uri()).build();
     }
 
     @PutMapping("/{id}")
