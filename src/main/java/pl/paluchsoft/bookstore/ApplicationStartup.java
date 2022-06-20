@@ -1,9 +1,6 @@
 package pl.paluchsoft.bookstore;
 
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -16,7 +13,6 @@ import pl.paluchsoft.bookstore.model.book.Book;
 import pl.paluchsoft.bookstore.model.order.CreateOrderCommand;
 import pl.paluchsoft.bookstore.model.order.OrderItemCommand;
 import pl.paluchsoft.bookstore.model.recipient.RecipientCommand;
-import pl.paluchsoft.bookstore.services.IQueryOrder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -51,8 +47,8 @@ public class ApplicationStartup implements CommandLineRunner {
                 .build();
 
         List<OrderItemCommand> items = new ArrayList<>();
-        items.add(new OrderItemCommand((long) 1,5));
-        items.add(new OrderItemCommand((long) 2,15));
+        items.add(new OrderItemCommand((long) 3,5));
+        items.add(new OrderItemCommand((long) 4,15));
 
 
         CreateOrderCommand addOrderCommand = CreateOrderCommand

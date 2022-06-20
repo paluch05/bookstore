@@ -52,11 +52,6 @@ public class CatalogController {
         return catalogService.findByAuthor(author);
     }
 
-    @GetMapping("/{title}/{author}")
-    public Optional<Book> findOneByTitleAndAuthor(@PathVariable String title, @PathVariable String author) {
-        return catalogService.findOneByTitleAndAuthor(title, author);
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> addBook(@Valid @RequestBody CreateBookCommand createBookCommand) {

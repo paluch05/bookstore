@@ -16,8 +16,7 @@ public class CreateBookCommand {
     @NotEmpty(message = "Title cannot be empty")
     @NotBlank(message = "Title cannot be blank")
     String title;
-//    @NotEmpty(message = "Author cannot be empty")
-//    @NotBlank(message = "Author cannot be blank")
+    @NotEmpty(message = "Author cannot be empty")
     Set<Long> authors;
 
     @NotNull(message = "Year cannot be blank")
@@ -31,6 +30,6 @@ public class CreateBookCommand {
     }
 
     public CreateBookCommand toCreateBookCommand() {
-        return new CreateBookCommand(title, Set.of(), year, price);
+        return new CreateBookCommand(title, authors, year, price);
     }
 }

@@ -1,5 +1,6 @@
 package pl.paluchsoft.bookstore.model.book;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import pl.paluchsoft.bookstore.model.Author;
 
@@ -21,6 +22,7 @@ public class Book {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable
+    @JsonIgnoreProperties("books")
     private Set<Author> authors;
     private Integer year;
     private BigDecimal price;

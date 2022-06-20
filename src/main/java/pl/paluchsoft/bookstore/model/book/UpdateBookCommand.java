@@ -14,25 +14,25 @@ import java.util.Set;
 public class UpdateBookCommand {
     Long id;
     String title;
-    Set<Author> authors;
+    Set<Long> authors;
     Integer year;
     BigDecimal price;
 
-    public Book updateFields(Book book) {
-        if (title != null) {
-            book.setTitle(title);
-        }
-//        if (author != null) {
-//            book.setAuthor(author);
+//    public Book updateFields(Book book) {
+//        if (title != null) {
+//            book.setTitle(title);
 //        }
-        if (year != null) {
-            book.setYear(year);
-        }
-        if (price != null) {
-            book.setPrice(price);
-        }
-        return book;
-    }
+////        if (author != null) {
+////            book.setAuthor(author);
+////        }
+//        if (year != null) {
+//            book.setYear(year);
+//        }
+//        if (price != null) {
+//            book.setPrice(price);
+//        }
+//        return book;
+//    }
 
     public UpdateBookCommand toUpdateBookCommand(Long id) {
         return new UpdateBookCommand(id, title, Set.of(), year, price);

@@ -18,8 +18,6 @@ public interface ICatalogService {
 
     Optional<Book> findById(Long id);
 
-    Optional<Book> findOneByTitleAndAuthor(String title, String author);
-
     Book addBook(CreateBookCommand createBookCommand);
 
     UpdateBookResponse updateBook(UpdateBookCommand updateBookCommand);
