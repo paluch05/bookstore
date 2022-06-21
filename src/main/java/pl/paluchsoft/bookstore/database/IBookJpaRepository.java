@@ -1,6 +1,7 @@
 package pl.paluchsoft.bookstore.database;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +9,10 @@ import org.springframework.data.repository.query.Param;
 import pl.paluchsoft.bookstore.model.book.Book;
 
 public interface IBookJpaRepository extends JpaRepository<Book, Long> {
+
+    List<Book> findByTitleContainsIgnoreCase(String title);
+
+    Optional<Book> findById(Long id);
 
     List<Book> findByAuthors_firstNameContainsIgnoreCaseOrAuthors_lastNameContainsIgnoreCase(String firstName, String lastName);
 

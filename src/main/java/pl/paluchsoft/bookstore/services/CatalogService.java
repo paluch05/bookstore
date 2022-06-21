@@ -27,24 +27,21 @@ public class CatalogService implements ICatalogService {
     }
 
     @Override
-    public List<Book> findByTitle(String title) {
-        return repository.findAll()
-                .stream()
-                .filter(book -> book.getTitle().contains(title))
-                .collect(Collectors.toList());
+    public List<Book> findByTitle(final String title) {
+        return repository.findByTitleContainsIgnoreCase(title);
     }
 
     @Override
     public Optional<Book> findOneByTitle(String title) {
-        return repository.findAll()
-                .stream()
-                .filter(book -> book.getTitle().contains(title))
-                .findFirst();
+        return repository
+            .findAll()
+            .stream()
+            .filter(book -> book.getTitle().contains(title))
+            .findFirst();
     }
 
     public List<Book> findByAuthor(String author) {
-        return repository
-            .findByAuthor(author);
+        return repository.findByAuthor(author);
     }
 
     @Override
@@ -127,5 +124,4 @@ public class CatalogService implements ICatalogService {
                         repository.save(book);
                     }});
     }
-
 }

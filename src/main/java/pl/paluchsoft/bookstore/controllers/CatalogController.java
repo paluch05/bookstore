@@ -31,10 +31,8 @@ public class CatalogController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
-        return catalogService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Optional<Book> findById(@PathVariable Long id) {
+        return catalogService.findById(id);
     }
 
     @GetMapping("/books/{title}")
