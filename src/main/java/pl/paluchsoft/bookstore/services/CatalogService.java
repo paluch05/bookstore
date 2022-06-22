@@ -33,11 +33,7 @@ public class CatalogService implements ICatalogService {
 
     @Override
     public Optional<Book> findOneByTitle(String title) {
-        return repository
-            .findAll()
-            .stream()
-            .filter(book -> book.getTitle().contains(title))
-            .findFirst();
+        return repository.findFirstByTitleContainsIgnoreCase(title);
     }
 
     public List<Book> findByAuthor(String author) {

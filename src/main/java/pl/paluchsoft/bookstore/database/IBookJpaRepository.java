@@ -14,7 +14,9 @@ public interface IBookJpaRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findById(Long id);
 
-    List<Book> findByAuthors_firstNameContainsIgnoreCaseOrAuthors_lastNameContainsIgnoreCase(String firstName, String lastName);
+    Optional<Book> findFirstByTitleContainsIgnoreCase(String title);
+
+//    List<Book> findByAuthors_firstNameContainsIgnoreCaseOrAuthors_lastNameContainsIgnoreCase(String firstName, String lastName);
 
     @Query(
         "SELECT b from Book b JOIN b.authors a " +
