@@ -3,6 +3,7 @@ package pl.paluchsoft.bookstore.model.book;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import pl.paluchsoft.bookstore.model.Author;
+import pl.paluchsoft.bookstore.model.BaseEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,10 +15,7 @@ import java.util.Set;
 @ToString(exclude = "authors")
 @RequiredArgsConstructor
 @Entity
-public class Book {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Book extends BaseEntity {
     private String title;
 
     @ManyToMany(fetch = FetchType.EAGER)

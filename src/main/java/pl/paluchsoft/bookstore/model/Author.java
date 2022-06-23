@@ -6,25 +6,19 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pl.paluchsoft.bookstore.model.book.Book;
 
 @Entity
-@Data
+@Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @ToString(exclude = "books")
-public class Author {
-  @Id
-  @GeneratedValue
-  private Long id;
-
+public class Author extends BaseEntity{
   private String firstName;
-
   private String lastName;
 
   @ManyToMany(fetch = FetchType.EAGER, mappedBy = "authors")
