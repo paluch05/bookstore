@@ -54,8 +54,13 @@ public class CatalogService implements ICatalogService {
     private Book toCreateBookCommand(CreateBookCommand command) {
         Book book = new Book(command.getTitle(), command.getYear(), command.getPrice());
         Set<Author> authors = fetchAuthorsByIds(command.getAuthors());
-        book.setAuthors(authors);
+        updateBooks(book, authors);
         return book;
+    }
+
+    private void updateBooks(Book book, Set<Author> authors) {
+        book.removeAllAuthors(book.getAuthors());
+        authors.forEach(book::addAuthor);
     }
 
     private Set<Author> fetchAuthorsByIds(Set<Long> authors) {
@@ -85,7 +90,7 @@ public class CatalogService implements ICatalogService {
             book.setTitle(updateCommand.getTitle());
         }
         if (updateCommand.getAuthors() != null && !updateCommand.getAuthors().isEmpty()) {
-            book.setAuthors(fetchAuthorsByIds(updateCommand.getAuthors()));
+            updateBooks(book, fetchAuthorsByIds(updateCommand.getAuthors()));
         }
         if (updateCommand.getYear() != null) {
             book.setYear(updateCommand.getYear());

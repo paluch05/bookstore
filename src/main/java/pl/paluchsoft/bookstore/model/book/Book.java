@@ -6,6 +6,7 @@ import pl.paluchsoft.bookstore.model.Author;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -22,7 +23,7 @@ public class Book {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable
     @JsonIgnoreProperties("books")
-    private Set<Author> authors;
+    private Set<Author> authors = new HashSet<>();
     private Integer year;
     private BigDecimal price;
 
@@ -32,5 +33,19 @@ public class Book {
         this.title = title;
         this.year = year;
         this.price = price;
+    }
+
+    public void addAuthor(Author author) {
+        authors.add(author);
+        author.getBooks().add(this);
+    }
+    public void removeAuthor(Author author) {
+        authors.remove(author);
+        author.getBooks().remove(this);
+    }
+
+    public void removeAllAuthors(Set<Author> authors) {
+        authors.forEach(author -> author.getBooks().remove(this));
+        authors.clear();
     }
 }
