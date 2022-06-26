@@ -10,6 +10,9 @@ import pl.paluchsoft.bookstore.model.book.Book;
 
 public interface IBookJpaRepository extends JpaRepository<Book, Long> {
 
+    @Query("SELECT b FROM Book b JOIN FETCH b.authors")
+    List<Book> findAllEager();
+
     List<Book> findByTitleContainsIgnoreCase(String title);
 
     Optional<Book> findById(Long id);

@@ -2,6 +2,7 @@ package pl.paluchsoft.bookstore.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.paluchsoft.bookstore.database.IBookJpaRepository;
 import pl.paluchsoft.bookstore.database.IOrderJpaRepository;
 import pl.paluchsoft.bookstore.model.book.Book;
@@ -21,6 +22,7 @@ public class QueryOrderService implements IQueryOrder{
     private final IBookJpaRepository catalogRepository;
 
     @Override
+    @Transactional
     public List<RichOrder> findAll() {
         return orderRepository.findAll()
                 .stream()
@@ -41,7 +43,11 @@ public class QueryOrderService implements IQueryOrder{
     private RichOrder toRichOrder(Order order) {
         List<RichOrderItem> richItems = toRichItems(order.getItems());
         return new RichOrder(
-                order.getId(), order.getStatus(), richItems, order.getRecipient(), order.getCreatedAt()
+            order.getId(),
+            order.getStatus(),
+            richItems,
+            order.getRecipient(),
+            order.getCreatedAt()
         );
     }
 

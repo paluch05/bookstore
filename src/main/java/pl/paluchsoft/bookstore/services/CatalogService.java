@@ -12,6 +12,7 @@ import pl.paluchsoft.bookstore.model.book.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +24,7 @@ public class CatalogService implements ICatalogService {
 
     @Override
     public List<Book> findAll() {
-        return repository.findAll();
+        return repository.findAllEager();
     }
 
     @Override
@@ -46,6 +47,7 @@ public class CatalogService implements ICatalogService {
     }
 
     @Override
+    @Transactional
     public Book addBook(CreateBookCommand createBookCommand) {
         Book book = toCreateBookCommand(createBookCommand);
         return repository.save(book);
@@ -73,12 +75,12 @@ public class CatalogService implements ICatalogService {
     }
 
     @Override
+    @Transactional
     public UpdateBookResponse updateBook(UpdateBookCommand updateBookCommand) {
         return repository
                 .findById(updateBookCommand.getId())
                 .map(book -> {
-                    Book updatedBook = updateFields(updateBookCommand, book);
-                    repository.save(updatedBook);
+                    updateFields(updateBookCommand, book);
                     return UpdateBookResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdateBookResponse(false,

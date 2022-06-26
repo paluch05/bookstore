@@ -1,34 +1,36 @@
-package pl.paluchsoft.bookstore;
-
-import lombok.AllArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import pl.paluchsoft.bookstore.controllers.CatalogController;
-import pl.paluchsoft.bookstore.controllers.OrderController;
-import pl.paluchsoft.bookstore.database.IAuthorJpaRepository;
-import pl.paluchsoft.bookstore.model.Author;
-import pl.paluchsoft.bookstore.model.book.CreateBookCommand;
-import pl.paluchsoft.bookstore.model.book.Book;
-import pl.paluchsoft.bookstore.model.order.CreateOrderCommand;
-import pl.paluchsoft.bookstore.model.order.OrderItemCommand;
-import pl.paluchsoft.bookstore.model.recipient.RecipientCommand;
+package pl.paluchsoft.bookstore.controllers;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@Component
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import pl.paluchsoft.bookstore.database.IAuthorJpaRepository;
+import pl.paluchsoft.bookstore.model.Author;
+import pl.paluchsoft.bookstore.model.book.Book;
+import pl.paluchsoft.bookstore.model.book.CreateBookCommand;
+import pl.paluchsoft.bookstore.model.order.CreateOrderCommand;
+import pl.paluchsoft.bookstore.model.order.OrderItemCommand;
+import pl.paluchsoft.bookstore.model.recipient.RecipientCommand;
+
+@RestController
+@RequestMapping("/admin")
 @AllArgsConstructor
-public class ApplicationStartup implements CommandLineRunner {
+public class AdminController {
 
     private final CatalogController catalogController;
     private final OrderController orderController;
     private final IAuthorJpaRepository authorRepository;
 
-    @Override
-    public void run(String... args) throws Exception {
+    @PostMapping("/data")
+    @Transactional
+    public void initialize() {
         addBooksData();
         placeOrder();
     }
@@ -37,14 +39,14 @@ public class ApplicationStartup implements CommandLineRunner {
         Book effectiveJava = catalogController.findOneByTitle("Effective Java").orElseThrow(() -> new IllegalStateException("Cannot find a book."));
         Book javaPuzzlers = catalogController.findOneByTitle("Java Puzzlers").orElseThrow(() -> new IllegalStateException("Cannot find a book."));
         RecipientCommand recipient = RecipientCommand
-                .builder()
-                .name("Jan Kowalski")
-                .phone("1234567890")
-                .street("Dębowa")
-                .city("Gdańsk")
-                .zipCode("80-872")
-                .email("jankowalski@gmail.com")
-                .build();
+            .builder()
+            .name("Jan Kowalski")
+            .phone("1234567890")
+            .street("Dębowa")
+            .city("Gdańsk")
+            .zipCode("80-872")
+            .email("jankowalski@gmail.com")
+            .build();
 
         List<OrderItemCommand> items = new ArrayList<>();
         items.add(new OrderItemCommand((long) 3,5));
@@ -52,17 +54,17 @@ public class ApplicationStartup implements CommandLineRunner {
 
 
         CreateOrderCommand addOrderCommand = CreateOrderCommand
-                .builder()
-                .recipientCommand(recipient)
-                .items(items)
-                .build();
+            .builder()
+            .recipientCommand(recipient)
+            .items(items)
+            .build();
         ResponseEntity<Object> response = orderController.addOrder(addOrderCommand);
         System.out.println("Created order with id: " + response.getStatusCodeValue());
 
         orderController.findAll()
-                .forEach(order -> {
-                    System.out.println("Got order with total price: " + order.totalPrice() + " details: " + order);
-                });
+            .forEach(order -> {
+                System.out.println("Got order with total price: " + order.totalPrice() + " details: " + order);
+            });
     }
 
     private void addBooksData() {
