@@ -13,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PlaceOrderCommand {
     @Singular
-    List<OrderItem> items;
+    List<OrderItemCommand> items;
     Recipient recipient;
 }

@@ -15,9 +15,9 @@ import pl.paluchsoft.bookstore.database.IAuthorJpaRepository;
 import pl.paluchsoft.bookstore.model.Author;
 import pl.paluchsoft.bookstore.model.book.Book;
 import pl.paluchsoft.bookstore.model.book.CreateBookCommand;
-import pl.paluchsoft.bookstore.model.order.CreateOrderCommand;
 import pl.paluchsoft.bookstore.model.order.OrderItemCommand;
-import pl.paluchsoft.bookstore.model.recipient.RecipientCommand;
+import pl.paluchsoft.bookstore.model.order.PlaceOrderCommand;
+import pl.paluchsoft.bookstore.model.recipient.Recipient;
 
 @RestController
 @RequestMapping("/admin")
@@ -36,9 +36,12 @@ public class AdminController {
     }
 
     private void placeOrder() {
-        Book effectiveJava = catalogController.findOneByTitle("Effective Java").orElseThrow(() -> new IllegalStateException("Cannot find a book."));
-        Book javaPuzzlers = catalogController.findOneByTitle("Java Puzzlers").orElseThrow(() -> new IllegalStateException("Cannot find a book."));
-        RecipientCommand recipient = RecipientCommand
+        Book effectiveJava = catalogController.findOneByTitle("Effective Java")
+            .orElseThrow(() -> new IllegalStateException("Cannot find a book."));
+        Book javaPuzzlers = catalogController.findOneByTitle("Java Puzzlers")
+            .orElseThrow(() -> new IllegalStateException("Cannot find a book."));
+
+        Recipient recipient = Recipient
             .builder()
             .name("Jan Kowalski")
             .phone("1234567890")
@@ -53,9 +56,9 @@ public class AdminController {
         items.add(new OrderItemCommand((long) 4,15));
 
 
-        CreateOrderCommand addOrderCommand = CreateOrderCommand
+        PlaceOrderCommand addOrderCommand = PlaceOrderCommand
             .builder()
-            .recipientCommand(recipient)
+            .recipient(recipient)
             .items(items)
             .build();
         ResponseEntity<Object> response = orderController.addOrder(addOrderCommand);
@@ -78,14 +81,16 @@ public class AdminController {
             "Effective Java",
             Set.of(joshua.getId()),
             2005,
-            new BigDecimal("59.99")
+            new BigDecimal("59.99"),
+            50L
         );
 
         CreateBookCommand javaPuzzlers = new CreateBookCommand(
             "Java Puzzlers",
             Set.of(joshua.getId(), neal.getId()),
             2017,
-            new BigDecimal("99.99")
+            new BigDecimal("99.99"),
+            50L
         );
         catalogController.addBook(effectiveJava);
         catalogController.addBook(javaPuzzlers);

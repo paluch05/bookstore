@@ -2,10 +2,11 @@ package pl.paluchsoft.bookstore.model.order;
 
 import lombok.*;
 import pl.paluchsoft.bookstore.model.BaseEntity;
+import pl.paluchsoft.bookstore.model.book.Book;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -13,7 +14,11 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderItem extends BaseEntity {
-    private Long bookId;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+
     private int quantity;
 
 }

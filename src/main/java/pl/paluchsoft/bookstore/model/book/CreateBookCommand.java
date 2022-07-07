@@ -7,6 +7,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -25,11 +26,15 @@ public class CreateBookCommand {
     @DecimalMin(value = "0.00", message = "Price must be positive")
     BigDecimal price;
 
+    @NotNull
+    @PositiveOrZero
+    Long available;
+
     public Book createBook() {
-        return new Book(title, year, price);
+        return new Book(title, year, price, available);
     }
 
     public CreateBookCommand toCreateBookCommand() {
-        return new CreateBookCommand(title, authors, year, price);
+        return new CreateBookCommand(title, authors, year, price, available);
     }
 }

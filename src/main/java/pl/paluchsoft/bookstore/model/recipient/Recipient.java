@@ -21,4 +21,8 @@ public class Recipient extends BaseEntity {
     private String city;
     private String zipCode;
     private String email;
+
+    public Recipient toRecipient() {
+        return new Recipient(name, phone, street, city, zipCode, email);
+    }
 }

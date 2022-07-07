@@ -34,12 +34,11 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> addOrder(@RequestBody CreateOrderCommand createOrderCommand) {
+    public ResponseEntity<Object> addOrder(@RequestBody PlaceOrderCommand command) {
         return placeOrderService
-                .placeOrderResponse(createOrderCommand.placeOrderCommand())
+                .placeOrderResponse(command)
                 .handle(
-                        orderId -> ResponseEntity.ok().build(),
-//                        orderId -> ResponseEntity.created(new CreatedURI("/" + orderId).uri()).build(),
+                        orderId -> ResponseEntity.created(new CreatedURI("/" + orderId).uri()).build(),
                         error -> ResponseEntity.badRequest().body(error)
                 );
     }

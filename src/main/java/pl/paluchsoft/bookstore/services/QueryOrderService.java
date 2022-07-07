@@ -13,6 +13,7 @@ import pl.paluchsoft.bookstore.model.order.RichOrderItem;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,24 +42,12 @@ public class QueryOrderService implements IQueryOrder{
     }
 
     private RichOrder toRichOrder(Order order) {
-        List<RichOrderItem> richItems = toRichItems(order.getItems());
         return new RichOrder(
             order.getId(),
             order.getStatus(),
-            richItems,
+            order.getItems(),
             order.getRecipient(),
             order.getCreatedAt()
         );
-    }
-
-    private List<RichOrderItem> toRichItems(List<OrderItem> items) {
-        return items.stream()
-                .map(item -> {
-                    Book book = catalogRepository
-                            .findById(item.getBookId())
-                            .orElseThrow(() -> new IllegalStateException("Unable to find book with id: " + item.getBookId()));
-                    return new RichOrderItem(book, item.getQuantity());
-                })
-                .collect(Collectors.toList());
     }
 }

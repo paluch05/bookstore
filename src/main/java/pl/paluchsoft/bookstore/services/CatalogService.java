@@ -54,7 +54,7 @@ public class CatalogService implements ICatalogService {
     }
 
     private Book toCreateBookCommand(CreateBookCommand command) {
-        Book book = new Book(command.getTitle(), command.getYear(), command.getPrice());
+        Book book = new Book(command.getTitle(), command.getYear(), command.getPrice(), command.getAvailable());
         Set<Author> authors = fetchAuthorsByIds(command.getAuthors());
         updateBooks(book, authors);
         return book;

@@ -1,1 +1,49 @@
+### initialize data
+POST http://localhost:8080/admin/data
+
+### catalog
+GET http://localhost:8080/catalog
+
+###
+POST http://localhost:8080/order
+Content-Type: application/json
+
+
+###
+POST http://localhost:8080/order
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "bookId": 3,
+      "quantity": 30
+    },
+    {
+      "bookId": 4,
+      "quantity": 30
+    }
+  ],
+  "recipient": {
+    "name": "John Doe",
+    "phone": "123-456-789",
+    "street": "Czarna 1/2",
+    "city": "Gdansk",
+    "zipCode": "80-888",
+    "email": "johndoe@gmail.com"
+  }
+}
+
+###
+PUT http://localhost:8080/order/5/status
+Content-Type: application/json
+
+{
+  "status": "NEW"
+}
+
+###
 GET http://localhost:8080/order
+
+###
+DELETE http://localhost:8080/catalog/12

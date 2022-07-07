@@ -9,7 +9,7 @@ import pl.paluchsoft.bookstore.model.recipient.Recipient;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,7 +27,7 @@ public class Order extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
-    private List<OrderItem> items;
+    private Set<OrderItem> items;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Recipient recipient;
@@ -38,4 +38,7 @@ public class Order extends BaseEntity {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    public void updateStatus(final OrderStatus newStatus) {
+        this.status = status.updateStatus(newStatus);
+    }
 }

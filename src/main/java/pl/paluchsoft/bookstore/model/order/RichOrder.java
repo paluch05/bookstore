@@ -5,13 +5,13 @@ import pl.paluchsoft.bookstore.model.recipient.Recipient;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Value
 public class RichOrder {
     Long id;
     OrderStatus status;
-    List<RichOrderItem> items;
+    Set<OrderItem> items;
     Recipient recipient;
     LocalDateTime createdAt;
 
